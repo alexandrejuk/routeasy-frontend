@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input component Input should render and be updated correctly 1`] = `
+<div>
+  <input
+    class="input"
+    name="InputName"
+    placeholder="InputName"
+    type="text"
+    value=""
+  />
+</div>
+`;
