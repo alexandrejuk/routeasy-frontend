@@ -1,0 +1,29 @@
+@import '../../assets/css/colors.css';
+
+.button {
+  border: 1px solid var(--mine-shaft);
+  border-radius: 1px;
+  color: var(--white);
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 600;
+  padding: 8px 22px;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+}
+
+.primary {
+  background-color: var(--silver-tree);
+  color: var(--white);
+}
+
+.primary:hover,
+.danger:hover {
+  opacity: 0.9;
+}
+
+.danger {
+  background-color: var(--pomegranate);
+  color: var(--white);
+}

@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button component should render correctly danger button 1`] = `
+<div>
+  <button
+    class="button danger"
+    type="button"
+  >
+    Danger Button
+  </button>
+</div>
+`;
+
+exports[`Button component should render correctly primary button 1`] = `
+<div>
+  <button
+    class="button primary"
+    type="button"
+  >
+    Primary Button
+  </button>
+</div>
+`;
