@@ -5,7 +5,7 @@ import axios from 'axios'
 import { buildAddressSpec } from './utils/addressSpec'
 
 const url = (
-  process.env.REACT_APP_API_URL
+  `${process.env.REACT_APP_API_URL}/api/deliveries`
   || 'http://localhost:3003/api/deliveries'
 )
 
