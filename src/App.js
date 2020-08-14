@@ -10,7 +10,7 @@ const url = (
 )
 
 const geoCodeUrl = address => (
-  `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyBcWpu_almbzwvYc8aIGLv0uW-952i2yA4&channel=88&token=4051`
+  `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_API_KEY}&channel=88&token=4051`
 )
 
 const App = () => {
