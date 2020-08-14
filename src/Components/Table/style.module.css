@@ -1,0 +1,27 @@
+@import '../../assets/css/colors.css';
+
+.table {
+  border-collapse: collapse;
+  font-family: arial, sans-serif;
+  width: 100%;
+}
+
+.th {
+  background-color: var(--silver-chalice);
+  color: var(--white);
+  text-align: center;
+}
+
+.td, .th {
+  border: 1px solid var(--white);
+  padding: 8px;
+  text-align: left;
+}
+
+.tr:nth-child(even) {
+  background-color: var(--mercury);
+}
+
+.tr:nth-child(odd) {
+  background-color: var(--galery);
+}
