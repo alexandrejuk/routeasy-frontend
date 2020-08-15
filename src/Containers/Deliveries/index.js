@@ -27,7 +27,10 @@ const Deliveries = ({
   onSubmit,
 }) => {
   const [formData, setFormData] = useState(initialState)
-  const [geoData, setGeoData] = useState({})
+  const [geoData, setGeoData] = useState({
+    lat: -23.531,
+    lng: -46.584,
+  })
   const [formErrors, setFormErrors] = useState({})
   const {
     address,
@@ -49,7 +52,10 @@ const Deliveries = ({
   const resetAllState = () => {
     setFormData(initialState)
     setFormErrors({})
-    setGeoData({})
+    setGeoData({
+      lat: -23.531,
+      lng: -46.584,
+    })
   }
 
   const handleSubmit = async () => {
@@ -179,7 +185,13 @@ const Deliveries = ({
         </div>
      </div>
       <div className={styles.content}>
-        <MapView deliveries={data} />
+        <MapView deliveries={data} mapConfig={{
+            center: {
+              lat: geoData.lat,
+              lng: geoData.lng,
+            },
+            zoom: 12,
+          }}/>
         <h4>Total de Clientes {data.length}; Peso Total: {totalWeight} kg; Ticket Médio*: 0</h4>
         <Table
           actionTable={actionTable}

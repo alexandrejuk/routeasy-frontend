@@ -11,17 +11,12 @@ import PropTypes from 'prop-types'
 import styles from './style.module.css'
 
 const tileUrl = "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
-const initialConfig = {
-  center: {
-    lat: -23.531,
-    lng: -46.584,
-  },
-  zoom: 12,
-}
 
 const MapView = ({
   deliveries,
+  mapConfig
 }) => {
+
   const MarkerPin = index => (
     <div className={styles.marker}>
       <span className={styles.markerText}>
@@ -45,7 +40,7 @@ const MapView = ({
 
   return (
     <div className={styles.container}>
-      <Map {...initialConfig}>
+      <Map {...mapConfig}>
         <TileLayer url={tileUrl} />
         {deliveries && deliveries.map(MarkerComponent)}
       </Map>
@@ -54,6 +49,13 @@ const MapView = ({
 }
 
 MapView.propTypes = {
+  initialConfig: PropTypes.shape({
+    center: PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lng: PropTypes.number.isRequired,
+    }).isRequired,
+    zoom: PropTypes.number.isRequired,
+  }).isRequired,
   deliveries: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
