@@ -7,7 +7,8 @@ Teste técnico da RoutEasy, desenvolvido com reactjs.
 2. cd routeasy-frontend
 3. npm install
 4. npm test (para executar os testes)
-5. npm start (para iniciar a aplicação)
+5. npm run storybook (para executar o storybook)
+6. npm start (para iniciar a aplicação)
 
 ## Screenshot
 ![routeasy-frontend](./screen-shot/screen.png)
