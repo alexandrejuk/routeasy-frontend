@@ -27,7 +27,8 @@ const Deliveries = ({
   onSubmit,
 }) => {
   const [formData, setFormData] = useState(initialState)
-  const [geoData, setGeoData] = useState({
+  const [geoData, setGeoData] = useState({})
+  const [mapLatLng, setMapLatLng] = useState({
     lat: -23.531,
     lng: -46.584,
   })
@@ -52,9 +53,10 @@ const Deliveries = ({
   const resetAllState = () => {
     setFormData(initialState)
     setFormErrors({})
-    setGeoData({
-      lat: -23.531,
-      lng: -46.584,
+    setGeoData({})
+    setMapLatLng({
+      lat: geoData.lat,
+      lng: geoData.lng,
     })
   }
 
@@ -187,8 +189,8 @@ const Deliveries = ({
       <div className={styles.content}>
         <MapView deliveries={data} mapConfig={{
             center: {
-              lat: geoData.lat,
-              lng: geoData.lng,
+              lat: mapLatLng.lat,
+              lng: mapLatLng.lng,
             },
             zoom: 12,
           }}/>
