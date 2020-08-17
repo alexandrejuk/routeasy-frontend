@@ -3,7 +3,7 @@ Teste técnico da RoutEasy, desenvolvido com reactjs, [demo](https://routeasy-fu
 
 ## Como usar
 
-1. clone o repositório: git@github.com:alexandrejuk/Payment-Service-Provider.git
+1. clone o repositório: git@github.com:alexandrejuk/routeasy-frontend.git
 2. cd routeasy-frontend
 3. npm install
 4. npm test (para executar os testes)
