@@ -1,15 +1,12 @@
 import React, {useState } from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { isEmpty, omit, mergeDeepRight } from 'ramda'
 
 import { formattedAddress } from '../../utils/addressSpec'
 import styles from './style.module.css'
 import {
   Button,
   Input,
-  MapView,
-  Table,
 } from '../../Components'
 
 const initialState = {
@@ -21,201 +18,107 @@ const initialState = {
 }
 
 const Deliveries = ({
-  actionTable,
-  data,
   geoCode,
-  onSubmit,
+  mapear,
+  distancia, 
 }) => {
   const [formData, setFormData] = useState(initialState)
+  const [formData2, setFormData2] = useState(initialState)
+
   const [geoData, setGeoData] = useState({})
-  const [mapLatLng, setMapLatLng] = useState({
-    lat: -23.531,
-    lng: -46.584,
-  })
-  const [formErrors, setFormErrors] = useState({})
+  const [geoData2, setGeoData2] = useState({})
+
   const {
     address,
-    lat,
-    lng,
-    name,
-    weight,
   } = formData
 
-  const totalWeight = data.reduce(
-    (acc, prev) => acc + Number(prev.weight), 0
-  )
+  const {
+    address2,
+  } = formData2
 
   const handleChange = ({ target }) => {
     const { name, value } = target
     setFormData({...formData, [name]: value })
   }
 
-  const resetAllState = () => {
-    setFormData(initialState)
-    setFormErrors({})
-    setGeoData({})
-    setMapLatLng({
-      lat: geoData.lat,
-      lng: geoData.lng,
-    })
+  const handleChange2 = ({ target }) => {
+    const { name, value } = target
+    setFormData2({...formData2, [name]: value })
   }
 
-  const handleSubmit = async () => {
-    const messageError = 'Campo Obrigatório'
-    const errors = {}
-
-    if (isEmpty(name)) {
-      errors.name = messageError
+  const geoLocation = async (type) => {
+    if (type === 'initial') {
+      const addressGeocode = await geoCode(address)
+      setFormData({
+        ...formData,
+        address: formattedAddress(addressGeocode),
+      })
+      setGeoData(addressGeocode)
+    } else {
+      const addressGeocode2 = await geoCode(address2)
+      setFormData2({
+        ...formData,
+        address2: formattedAddress(addressGeocode2),
+      })
+      setGeoData2(addressGeocode2)
     }
-
-    if (isEmpty(address)) {
-      errors.address = messageError
-    }
-
-    if (isEmpty(weight)) {
-      errors.weight = messageError
-    }
-
-    if (isEmpty(lat)) {
-      errors.lat = messageError
-    }
-
-    setFormErrors(errors)
-
-    const createDelivery =  isEmpty(errors) && await onSubmit(
-      mergeDeepRight(omit(['address'], formData), geoData)
-    )
-    return createDelivery && resetAllState()
   }
 
-  const handleReset = () => setFormData(initialState)
-
-  const geoLocation = async () => {
-    if(isEmpty(address)) return
-    const addressGeocode = await geoCode(address)
-    setFormData({
-      ...formData,
-      address: formattedAddress(addressGeocode),
-      lat: addressGeocode.lat,
-      lng: addressGeocode.lng,
-    })
-    setGeoData(addressGeocode)
-  }
   return (
     <div className={styles.container}>
      <div className={styles.sideBar}>
       <div className={styles.form}>
           <div className={styles.formGroup}>
             <Input
-              error={formErrors && formErrors.name}
-              name='name'
-              onChange={handleChange}
-              placeholder="Nome Cliente"
-              type="text"
-              value={name}
-            />
-            <small className={styles.error}>
-              {formErrors && formErrors.name}
-            </small>
-          </div>
-          <div className={styles.formGroup}>
-            <Input
-              error={formErrors && formErrors.weight}
-              name='weight'
-              onChange={handleChange}
-              placeholder="Peso da Entrega"
-              type="number"
-              value={weight}
-            />
-            <small className={styles.error}>
-              {formErrors && formErrors.weight}
-            </small>
-          </div>
-          <div className={styles.formGroup}>
-            <Input
-              error={formErrors && formErrors.address}
               name='address'
+              id='endereco_inicial'
               onChange={handleChange}
-              placeholder="Endereço Cliente"
+              placeholder="Ponto inicial"
               type="text"
               value={address}
             />
-            <small className={styles.error}>
-              {formErrors && formErrors.address}
-            </small>
           </div>
+          
           <div className={styles.formGroup}>
-            <button onClick={geoLocation}>BUSCAR</button>
+            <button id='btn_inicial' onClick={() => geoLocation('initial')}>BUSCAR PRIMEIRO ENDEREÇO</button>
           </div>
-          <div className={styles.geometry}>
+
+          <div className={styles.formGroup}>
             <Input
-              error={formErrors && formErrors.lat}
-              disable
-              name='lat'
-              onChange={handleChange}
-              placeholder="Latitude"
-              type="number"
-              value={lat}
+              id='endereco_final'
+              name='address2'
+              onChange={handleChange2}
+              placeholder="Ponto final"
+              type="text"
+              value={address2}
             />
-            <Input
-              error={formErrors && formErrors.lat}
-              disable
-              name='lng'
-              onChange={handleChange}
-              placeholder="Longitude"
-              type="number"
-              value={lng}
-            />
-            <small className={styles.error}>
-              {formErrors && formErrors.lat}
-            </small>
           </div>
-          <Button
-            onClick={handleSubmit}
-            type="primary"
-          >
-            CADASTRAR CLIENTE
-          </Button>
+          
+          <div className={styles.formGroup}>
+            <button id='btn_final' onClick={() => geoLocation('final')}>BUSCAR SEGUNDO ENDEREÇO</button>
+          </div>
+
         </div>
         <div className={classNames(styles.form, styles.spacing)}>
           <Button
-            onClick={handleReset}
+            id='btn_calc_km'
+            onClick={() => mapear(`${geoData.lng},${geoData.lat};${geoData2.lng},${geoData2.lat}`)}
             type="danger"
           >
-            RESETAR CADASTRO
+            Mapea distância
           </Button>
         </div>
      </div>
-      <div className={styles.content}>
-        <MapView deliveries={data} mapConfig={{
-            center: {
-              lat: mapLatLng.lat,
-              lng: mapLatLng.lng,
-            },
-            zoom: 12,
-          }}/>
-        <h4>Total de Clientes {data.length}; Peso Total: {totalWeight} kg; Ticket Médio*: 0</h4>
-        <Table
-          actionTable={actionTable}
-          data={data}
-        />
-        <h4>*Peso Total/Total de Clientes</h4>
-      </div>
+     <div style={{ padding: '20px' }}>
+       <h3>A distância de {address} até {address2} é de: <span id='distancia'>{distancia}</span> {distancia ? 'km': null}</h3>
+     </div>
     </div>
   )
 }
 
 Deliveries.propTypes = {
-  actionTable: PropTypes.shape({
-    control: PropTypes.func,
-    field: PropTypes.string,
-    label: PropTypes.string,
-  }).isRequired,
-  data: PropTypes.arrayOf(
-    PropTypes.shape({}).isRequired,
-  ).isRequired,
   geoCode: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  mapear: PropTypes.func.isRequired
 }
 
 export default Deliveries

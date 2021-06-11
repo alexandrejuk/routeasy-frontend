@@ -8,17 +8,20 @@ const Button = ({
   children,
   onClick,
   type,
+  id,
 }) => (
   <button
     className={classNames(styles.button, styles[type])}
     onClick={onClick}
     type="button"
+    id={id}
   >
     {children}
   </button>
 )
 
 Button.propTypes = {
+  id: PropTypes.string,
   children: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   type: PropTypes.oneOf([

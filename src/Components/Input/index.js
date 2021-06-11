@@ -12,6 +12,7 @@ const Input = ({
   onChange,
   type,
   value,
+  id,
 }) => (
   <input
     className={classNames(styles.input, { [styles.error]: error })}
@@ -21,10 +22,12 @@ const Input = ({
     placeholder={placeholder}
     type={type}
     value={value}
+    id={id}
   />
 )
 
 Input.propTypes = {
+  id: PropTypes.string,
   error: PropTypes.string,
   disable: PropTypes.bool,
   label: PropTypes.string,
@@ -35,7 +38,7 @@ Input.propTypes = {
     'number',
     'text',
   ]).isRequired,
-  value: PropTypes.any.isRequired,
+  value: PropTypes.any,
 }
 
 Input.defaultProps = {

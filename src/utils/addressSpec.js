@@ -58,15 +58,12 @@ const buildAddressSpec = address => mergeDeepRight(
 )
 
 const formattedAddress = ({
-  street = '',
-  streetNumber = '',
-  neighborhood = '',
   city = '',
   state = '',
   zipcode = '',
   country = '',
 }) => {
-  return `${street} ${streetNumber}, ${neighborhood} - ${city} / ${state}, ${zipcode} - ${country}`
+  return `${city} / ${state}, ${zipcode} - ${country}`
 }
 
 export {
