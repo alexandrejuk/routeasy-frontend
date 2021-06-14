@@ -33,7 +33,8 @@ const App = () => {
   }, [])
 
   const geoCode = async (address) => {
-    const { data: { results } } = await axios.get(geoCodeUrl(address))
+    const newAddress = encodeURI(address)
+    const { data: { results } } = await axios.get(geoCodeUrl(newAddress))
     return buildAddressSpec(results[0])
   }
 
