@@ -3,8 +3,10 @@ import Deliveries from './Containers/Deliveries'
 import axios from 'axios'
 import { pathOr } from 'ramda'
 import { Route, Switch, Redirect } from "react-router-dom"
-
+import ES6Promise from 'es6-promise'
 import { buildAddressSpec } from './utils/addressSpec'
+
+ES6Promise.polyfill()
 
 const url = (
   `${process.env.REACT_APP_API_URL}/api/deliveries`
