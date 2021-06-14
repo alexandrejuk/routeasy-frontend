@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Deliveries from './Containers/Deliveries'
 import axios from 'axios'
 import { pathOr } from 'ramda'
-import { Route, Switch, Redirect } from "react-router"
+import { Route, Switch, Redirect } from "react-router-dom"
 
 import { buildAddressSpec } from './utils/addressSpec'
 
