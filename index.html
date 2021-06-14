@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+
+    <input id='endereco_1' name='endereco' />
+    <button id='btn1'>Busca endereco 1</button>
+
+
+    <input id='endereco_2' name='endereco2' />
+    <button id='btn2'>Busca endereco 2</button>
+
+    <button id='btn3'>Calcular distancia</button>
+    <h2><span id='address1'></span> <span id='address2'></span></h2>
+    <h3>Distancia calculada é de: <span id='distancia'></span> km</h3>
+</body>
+<script>
+    var urlGoogle = function (address) {
+        return 'https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=AIzaSyBcWpu_almbzwvYc8aIGLv0uW-952i2yA4&channel=88&token=4051'
+    }
+
+    var urlMapear = function (location) {
+        return 'https://www.mapeia.com.br/route/v1/driving/' + location + '?overview=false&alternatives=true&steps=true&hints=fHaJgIl2iYAxAAAATAAAADgAAAAIAAAACsQIQqBBUEJLoxpCiy26QDEAAABMAAAAOAAAAAgAAAA6BwAA-jk3_WVLlf6IOzf9fkuV_gMADwuhzEVs;'
+    }
+    var endereco1 = null
+    var endereco2 = null
+
+    function buscarGeolocalizacao1() {
+        var nAddress = encodeURI(document.getElementById('endereco_1').value)
+        fetch(urlGoogle(nAddress), { method: 'GET', headers: {} })
+            .then(function (response) {
+                return response.json()
+            })
+            .then(function (response) {
+                document.getElementById("address1").innerHTML = response.results[0].formatted_address
+                endereco1 = response.results[0]
+            })
+    }
+
+    function buscarGeolocalizacao2() {
+        var nAddress = encodeURI(document.getElementById('endereco_2').value)
+        fetch(urlGoogle(nAddress), { method: 'GET', headers: {} })
+            .then(function (response) {
+                return response.json()
+            })
+            .then(function (response) {
+                document.getElementById("address2").innerHTML = 'até ' + response.results[0].formatted_address 
+                endereco2 = response.results[0]
+            })
+    }
+
+
+    function calcKM() {
+        var location1 = endereco1.geometry.location.lng+','+endereco1.geometry.location.lat+';'+ endereco2.geometry.location.lng+','+endereco2.geometry.location.lat
+        fetch(urlMapear(location1), { method: 'GET', headers: {} })
+            .then(function (response) {
+                return response.json()
+            })
+            .then(function (response) {
+                var distancia = String((response.routes[0].distance / 1000).toFixed(0))
+                document.getElementById('distancia').innerHTML = distancia
+
+            })
+    }
+
+
+    document.getElementById("btn1").addEventListener("click", buscarGeolocalizacao1)
+    document.getElementById("btn2").addEventListener("click", buscarGeolocalizacao2)
+    document.getElementById("btn3").addEventListener("click", calcKM)
+
+</script>
+
+</html>
