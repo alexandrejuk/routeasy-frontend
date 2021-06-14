@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Deliveries from './Containers/Deliveries'
 import axios from 'axios'
 import { pathOr } from 'ramda'
+import { Route, Switch, Redirect } from "react-router"
 
 import { buildAddressSpec } from './utils/addressSpec'
 
@@ -49,12 +50,19 @@ const App = () => {
 
 
   return (
-    <Deliveries
-      geoCode={geoCode}
-      data={data}
-      mapear={mapear}
-      distancia={distancia}
-    />
+    
+    <Switch>
+    <Route path="/delivery">
+       <Deliveries
+          geoCode={geoCode}
+          data={data}
+          mapear={mapear}
+          distancia={distancia}
+        />
+    </Route>
+    <Redirect from="*" to="/delivery" />
+  </Switch>
+   
   )
 }
 
